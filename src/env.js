@@ -35,6 +35,9 @@ export const env = createEnv({
     LANGFUSE_SECRET_KEY: z.string(),
     LANGFUSE_PUBLIC_KEY: z.string(),
     LANGFUSE_BASE_URL: z.string(),
+
+    // 评测数据集运行分级环境变量，严格限定为三级枚举并默认回退为 dev
+    EVAL_DATASET: z.enum(["dev", "ci", "regression"]).default("dev"),
   },
 
   /**
@@ -66,6 +69,9 @@ export const env = createEnv({
     LANGFUSE_SECRET_KEY: process.env.LANGFUSE_SECRET_KEY,
     LANGFUSE_PUBLIC_KEY: process.env.LANGFUSE_PUBLIC_KEY,
     LANGFUSE_BASE_URL: process.env.LANGFUSE_BASE_URL,
+
+    // 映射服务端环境变量 process.env.EVAL_DATASET
+    EVAL_DATASET: process.env.EVAL_DATASET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

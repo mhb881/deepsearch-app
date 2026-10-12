@@ -5,14 +5,27 @@
 import { evalite } from "evalite";
 
 import { askDeepSearch } from "~/deepsearch";
+import { env } from "~/env";
 
-import { devDataset } from "./datasets/dev.dataset";
+import { ciDataset } from "./datasets/ci";
+import { devDataset } from "./datasets/dev";
+import { regressionDataset } from "./datasets/regression";
 import { Factuality } from "./scorers/factuality";
 
 evalite("Deep Search Eval", {
   // 1. 测试数据集：接入解耦后的强类型 Dev 研发数据集
   data: async () => {
-    return devDataset.map((item) => ({
+    let selectedData = devDataset;
+
+    if (env.EVAL_DATASET === "ci") {
+      selectedData = [...devDataset, ...ciDataset];
+    }
+
+    if (env.EVAL_DATASET === "regression") {
+      selectedData = [...devDataset, ...ciDataset, ...regressionDataset];
+    }
+
+    return selectedData.map((item) => ({
       input: item.input,
       expected: item.expected,
     }));

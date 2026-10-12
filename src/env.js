@@ -45,7 +45,9 @@ export const env = createEnv({
 
     // Deepsearch 参数
     // 最大搜索结果数量
-    SEARCH_RESULT_COUNT: z.coerce.number().default(10),
+    SEARCH_RESULT_COUNT: z.coerce.number().default(8),
+    // 抓取最大URL数量
+    SCRAPE_MAX_URLS: z.coerce.number().default(5),
   },
 
   /**
@@ -88,6 +90,8 @@ export const env = createEnv({
     // Deepsearch 参数
     // 最大搜索结果数量
     SEARCH_RESULT_COUNT: process.env.SEARCH_RESULT_COUNT,
+    // 抓取最大URL数量
+    SCRAPE_MAX_URLS: process.env.SCRAPE_MAX_URLS,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

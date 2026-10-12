@@ -1,16 +1,16 @@
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { relations } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
+  jsonb,
   pgTableCreator,
+  serial,
   text,
   timestamp,
   varchar,
-  boolean,
-  serial,
-  jsonb,
 } from "drizzle-orm/pg-core";
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same

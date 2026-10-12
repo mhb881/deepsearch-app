@@ -121,7 +121,7 @@ export async function askDeepSearch(messages: UIMessage[]) {
   const result = streamFromDeepSearch({
     messages: modelMessages,
     telemetry: {
-      isEnabled: false, // ⭐️ 绝对防御：测试环境完全关闭生产遥测上报
+      isEnabled: false, // 测试环境完全关闭生产遥测上报
     },
   });
 

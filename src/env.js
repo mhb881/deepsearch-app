@@ -30,6 +30,10 @@ export const env = createEnv({
     GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
     // SiliconFlow API Key
     SILICONFLOW_API_KEY: z.string(),
+    // openrouter llm service API Key
+    OPENROUTER_API_KEY: z.string(),
+    // grop llm service API Key
+    GROQ_API_KEY: z.string(),
 
     // Langfuse API Key
     LANGFUSE_SECRET_KEY: z.string(),
@@ -58,8 +62,12 @@ export const env = createEnv({
     AUTH_SECRET: process.env.AUTH_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+
     GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
     SILICONFLOW_API_KEY: process.env.SILICONFLOW_API_KEY,
+    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
+    GROQ_API_KEY: process.env.GROQ_API_KEY,
+
     // Serper API Key
     SERPER_API_KEY: process.env.SERPER_API_KEY,
     // Discord Auth

@@ -1,5 +1,5 @@
 {
-  "name": "build-deepsearch-in-ts-self",
+  "name": "build-deepsearch-in-ts",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.57",
+    "@ai-sdk/groq": "^4.0.59",
     "@ai-sdk/openai-compatible": "^3.0.41",
     "@ai-sdk/react": "^4.0.87",
     "@langfuse/otel": "^5.11.1",
@@ -83,5 +84,5 @@
   "engines": {
     "node": ">=22 <23"
   },
-  "packageManager": "pnpm@12.8.1"
+  "packageManager": "pnpm@12.11.2"
 }

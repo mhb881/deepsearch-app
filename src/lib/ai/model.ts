@@ -1,8 +1,10 @@
 import { google } from "@ai-sdk/google";
+import { groq } from "@ai-sdk/groq";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
-const googleModel = google("gemini-3.5-flash-lite");
-const google_gemini_3_1 = google("gemini-3.1-flash-lite-preview");
+const googleModel_3_5_flash = google("gemini-3.5-flash-lite");
+const google_gemini_3_1_flash = google("gemini-3.1-flash-lite-preview");
+
 /*
 使用 SiliconFlow 模型生成文本示例：
 model: siliconflow.chatModel(
@@ -18,5 +20,12 @@ const siliconflow = createOpenAICompatible({
 });
 const siliconflowModel = siliconflow.chatModel("deepseek-ai/DeepSeek-V4-Flash");
 
-export const model = googleModel;
-export const factualityModel = google_gemini_3_1;
+/**
+ * groq 服务商模型
+ * 1. llama-3.3-70b-versatile
+ * 2. qwen/qwen3.8-27b
+ */
+export const groqModel_llama_3_3 = groq("qwen/qwen3.8-27b");
+
+export const model = googleModel_3_5_flash;
+export const factualityModel = google_gemini_3_1_flash;

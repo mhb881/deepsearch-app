@@ -34,7 +34,6 @@ const eslintConfig = defineConfig([
       //     fixStyle: "inline-type-imports",
       //   },
       // ],
-      // "@typescript-eslint/no-namespace": ["error", { allowDeclarations: true }],
       // "@typescript-eslint/array-type": "off",
       // "@typescript-eslint/consistent-type-definitions": "off",
       // "@typescript-eslint/require-await": "off",

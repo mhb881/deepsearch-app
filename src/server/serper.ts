@@ -7,68 +7,66 @@ import { cacheWithRedis } from "~/server/redis/redis";
  *
  * 使用 declare namespace 声明纯类型，仅用于编译时类型检查，不生成运行时代码
  */
-export declare namespace SerperTool {
-  /** 搜索请求参数：q 为搜索关键词，num 为返回结果数量 */
-  export type SearchInput = {
-    q: string;
-    num: number;
-  };
+/** 搜索请求参数：q 为搜索关键词，num 为返回结果数量 */
+export type SearchInput = {
+  q: string;
+  num: number;
+};
 
-  /** 响应中的搜索参数回显：查询词、搜索类型、搜索引擎 */
-  export interface SearchParameters {
-    q: string;
-    type: string;
-    engine: string;
-  }
+/** 响应中的搜索参数回显：查询词、搜索类型、搜索引擎 */
+export interface SearchParameters {
+  q: string;
+  type: string;
+  engine: string;
+}
 
-  /** Google 知识图谱信息：标题、类型、评分、评分人数、图片 URL、属性键值对 */
-  export interface KnowledgeGraph {
-    title: string;
-    type: string;
-    rating?: number;
-    ratingCount?: number;
-    imageUrl?: string;
-    attributes?: Record<string, string>;
-  }
+/** Google 知识图谱信息：标题、类型、评分、评分人数、图片 URL、属性键值对 */
+export interface KnowledgeGraph {
+  title: string;
+  type: string;
+  rating?: number;
+  ratingCount?: number;
+  imageUrl?: string;
+  attributes?: Record<string, string>;
+}
 
-  /** 搜索结果下的子链接：标题 + 链接 */
-  export interface Sitelink {
-    title: string;
-    link: string;
-  }
+/** 搜索结果下的子链接：标题 + 链接 */
+export interface Sitelink {
+  title: string;
+  link: string;
+}
 
-  /** 自然搜索结果：标题、链接、摘要（snippet）、子链接、排名位置、日期 */
-  export interface OrganicResult {
-    title: string;
-    link: string;
-    snippet: string;
-    sitelinks?: Sitelink[];
-    position: number;
-    date?: string;
-  }
+/** 自然搜索结果：标题、链接、摘要（snippet）、子链接、排名位置、日期 */
+export interface OrganicResult {
+  title: string;
+  link: string;
+  snippet: string;
+  sitelinks?: Sitelink[];
+  position: number;
+  date?: string;
+}
 
-  /** "人们还问了"模块：问题、摘要、标题、链接 */
-  export interface PeopleAlsoAskResult {
-    question: string;
-    snippet: string;
-    title: string;
-    link: string;
-  }
+/** "人们还问了"模块：问题、摘要、标题、链接 */
+export interface PeopleAlsoAskResult {
+  question: string;
+  snippet: string;
+  title: string;
+  link: string;
+}
 
-  /** 相关搜索：查询词 */
-  export interface RelatedSearch {
-    query: string;
-  }
+/** 相关搜索：查询词 */
+export interface RelatedSearch {
+  query: string;
+}
 
-  /** 完整响应体：搜索参数、知识图谱、自然结果列表、人们还问、相关搜索、API 额度消耗 */
-  export interface SearchResult {
-    searchParameters: SearchParameters;
-    knowledgeGraph?: KnowledgeGraph;
-    organic: OrganicResult[];
-    peopleAlsoAsk?: PeopleAlsoAskResult[];
-    relatedSearches?: RelatedSearch[];
-    credits: number;
-  }
+/** 完整响应体：搜索参数、知识图谱、自然结果列表、人们还问、相关搜索、API 额度消耗 */
+export interface SearchResult {
+  searchParameters: SearchParameters;
+  knowledgeGraph?: KnowledgeGraph;
+  organic: OrganicResult[];
+  peopleAlsoAsk?: PeopleAlsoAskResult[];
+  relatedSearches?: RelatedSearch[];
+  credits: number;
 }
 
 /**
@@ -86,7 +84,7 @@ const fetchFromSerper = cacheWithRedis(
   async (
     url: string,
     options: Omit<RequestInit, "headers"> & { signal: AbortSignal | undefined },
-  ): Promise<SerperTool.SearchResult> => {
+  ): Promise<SearchResult> => {
     // 环境变量检查：如果 SERPER_API_KEY 未设置，直接抛出错误，避免发出无效请求
     if (!process.env.SERPER_API_KEY) {
       throw new Error("SERPER_API_KEY is not set in .env");
@@ -126,7 +124,7 @@ const fetchFromSerper = cacheWithRedis(
  * 调用链：searchSerper → fetchFromSerper（带缓存）→ fetch（实际网络请求）
  */
 export const searchSerper = async (
-  body: SerperTool.SearchInput,
+  body: SearchInput,
   signal: AbortSignal | undefined,
 ) => {
   // 调用 fetchFromSerper，向 /search 端点发送 POST 请求

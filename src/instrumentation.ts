@@ -16,9 +16,10 @@ Better Auth
     ↓
 Discord
  */
+import { NodeSDK } from "@opentelemetry/sdk-node";
+
 import { env } from "./env";
 import { runProxy } from "./lib/proxy";
-import { NodeSDK } from "@opentelemetry/sdk-node";
 import { langfuseSpanProcessor } from "./lib/telemetry";
 
 export async function register() {

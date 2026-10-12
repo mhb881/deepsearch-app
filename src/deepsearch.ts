@@ -98,7 +98,6 @@ export interface StreamFromDeepSearchOptions {
 export const streamFromDeepSearch = (opts: StreamFromDeepSearchOptions) => {
   // 在每次处理请求时，动态获取当下的系统时间字符串
   const currentDate = opts.currentDate ?? new Date().toLocaleString();
-
   return streamText({
     model,
     instructions: getSystemPrompt(currentDate),

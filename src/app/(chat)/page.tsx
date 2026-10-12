@@ -1,5 +1,6 @@
 // src/app/(chat)/page.tsx
 import { getSession } from "~/server/auth/session";
+
 import { ChatPage } from "../../components/chat-components/chat";
 
 export default async function NewChatPage({}) {

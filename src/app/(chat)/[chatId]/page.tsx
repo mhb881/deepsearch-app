@@ -1,5 +1,6 @@
 // src/app/(chat)/[chatId]/page.tsx
 import { notFound, redirect } from "next/navigation";
+
 import { ChatPage } from "~/components/chat-components/chat";
 import { mapDBMessagesToUIMessages } from "~/lib/utils/ai-utils";
 import { getSession } from "~/server/auth/session";

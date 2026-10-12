@@ -1,5 +1,6 @@
 // src/app/(chat)/layout.tsx
 import type { ReactNode } from "react";
+
 import Sidebar from "~/components/chat-components/chat-sidebar";
 import { ChatContextProvider } from "~/components/chat-components/context/chat-context";
 import { getSession } from "~/server/auth/session";

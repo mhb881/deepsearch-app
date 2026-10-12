@@ -13,7 +13,6 @@ const eslintConfig = defineConfig([
     plugins: {
       "simple-import-sort": simpleImportSort,
     },
-    files: ["src/**/*.{ts,tsx}"],
     // languageOptions: {
     //   parserOptions: {
     //     projectService: true, // 启用 Project Service，比 project: [...] 显著提升 IDE 性能

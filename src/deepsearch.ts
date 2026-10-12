@@ -30,7 +30,7 @@ Before calling any tools, classify the request:
    - **Condition**: The question can be accurately, completely, and definitively answered using internal knowledge.
    - **Action**: Answer directly and rigorously without invoking 'searchWeb' or 'scrapePages'. Do not create fabricated citations.
 
-2. **Research Mode (Mandatory Two-Phase Workflow)**:
+2. **Research Mode (Two-Phase Workflow)**:
    - **Condition**: The query involves time-sensitive events, fast-evolving tech, specific library versions, recent changelogs, obscure API docs, competitive benchmarks, explicit requests to browse/verify, or unverified claims.
    - **Action**: You MUST strictly execute the Two-Phase Workflow below.
 

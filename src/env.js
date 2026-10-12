@@ -42,6 +42,10 @@ export const env = createEnv({
 
     // 评测数据集运行分级环境变量，严格限定为三级枚举并默认回退为 dev
     EVAL_DATASET: z.enum(["dev", "ci", "regression"]).default("dev"),
+
+    // Deepsearch 参数
+    // 最大搜索结果数量
+    SEARCH_RESULT_COUNT: z.coerce.number().default(10),
   },
 
   /**
@@ -80,6 +84,10 @@ export const env = createEnv({
 
     // 映射服务端环境变量 process.env.EVAL_DATASET
     EVAL_DATASET: process.env.EVAL_DATASET,
+
+    // Deepsearch 参数
+    // 最大搜索结果数量
+    SEARCH_RESULT_COUNT: process.env.SEARCH_RESULT_COUNT,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

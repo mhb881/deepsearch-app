@@ -3,13 +3,12 @@
 
 import {
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useMemo,
   useState,
-  type ReactNode,
 } from "react";
-import type { SimpleChat } from "~/lib/types/types";
 
 /**
  * 构建一个 React Context 的标准流程， 4 步闭环：
@@ -23,6 +22,11 @@ import type { SimpleChat } from "~/lib/types/types";
 interface ChatContextType {
   chats: SimpleChat[];
   handleCreatedChat: (chat: SimpleChat) => void;
+}
+
+interface SimpleChat {
+  id: string;
+  title: string;
 }
 
 // ─── 2. 内部实例（私有，不 export，强制通过自定义 Hook 访问） ───

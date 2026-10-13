@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { ExternalLink } from "lucide-react";
+import { useState } from "react";
+
 import type { SearchWebResultItem } from "../types";
 
 interface SearchWebViewProps {

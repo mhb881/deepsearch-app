@@ -1,17 +1,18 @@
 // src/components/chat-components/chat.tsx
 "use client";
 
-import { useRef, useState } from "react";
-import { ChatMessage } from "~/components/chat-components/chat-message";
-import { SignInModal } from "~/components/auth/sign-in-modal";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Loader2, Send, Square } from "lucide-react";
-import { cn } from "~/lib/utils/utils";
-import type { ChatUIMessage } from "~/lib/types/ai-types";
 import { useRouter } from "next/navigation";
-import { useChatContext } from "~/components/chat-components/context/chat-context";
+import { useRef, useState } from "react";
 import { StickToBottom } from "use-stick-to-bottom";
+
+import { SignInModal } from "~/components/auth/sign-in-modal";
+import { ChatMessage } from "~/components/chat-components/chat-message";
+import { useChatContext } from "~/components/chat-components/context/chat-context";
+import type { ChatUIMessage } from "~/lib/types/ai-types";
+import { cn } from "~/lib/utils/utils";
 
 interface ChatProps {
   userName: string;
@@ -32,7 +33,7 @@ export const ChatPage = ({
     undefined,
   );
   const createdChatIdRef = useRef<string | undefined>(undefined);
-  // ⭐️ 派生状态：优先使用服务端 prop，若无则使用本轮创建的 ID
+  // 派生状态：优先使用服务端 prop，若无则使用本轮创建的 ID
   const activeChatId = chatId ?? createdChatId ?? undefined;
 
   const { messages, sendMessage, status, error, stop } = useChat<ChatUIMessage>(
@@ -63,7 +64,7 @@ export const ChatPage = ({
           window.history.replaceState(null, "", `/${newChatId}`);
 
           // 通过 callback 直接通知父组件更新 Sidebar，其实是通知 Context
-          // 纯内存操作，不触发服务端刷新，0ms 响应，绝不打断流！
+          // 纯内存操作，不触发服务端刷新
           onChatCreated({
             id: newChatId,
             title,

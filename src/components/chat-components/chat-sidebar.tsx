@@ -3,9 +3,11 @@
 
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { AuthButton } from "../auth/auth-button";
-import { cn } from "~/lib/utils/utils";
 import { usePathname } from "next/navigation";
+
+import { cn } from "~/lib/utils/utils";
+
+import { AuthButton } from "../auth/auth-button";
 import { useChatContext } from "./context/chat-context";
 
 interface SidebarProps {

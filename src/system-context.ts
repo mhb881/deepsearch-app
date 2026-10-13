@@ -31,7 +31,7 @@ export class SystemContext {
   private step = 0;
 
   /**
-   * The history of all queries searched
+   * The history of all queries searcheds
    */
   private queryHistory: QueryResult[] = [];
 

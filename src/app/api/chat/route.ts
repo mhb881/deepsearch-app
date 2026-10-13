@@ -209,27 +209,40 @@ async function handler(req: Request) {
             });
           }
 
-          // ⭐️ 核心瘦身重构：直接调用抽离后的独立执行器！
-          const result = streamFromDeepSearch({
-            messages: modelMessages,
-            telemetry: {
-              isEnabled: true,
-              functionId: "deepsearch-chat",
-            },
-            abortSignal: req.signal,
-            onError: ({ error }) => {
-              console.error("[AI stream error]", error);
-            },
-          });
+          try {
+            // ⭐️ 核心瘦身重构：直接调用抽离后的独立执行器！
+            const result = streamFromDeepSearch({
+              messages: modelMessages,
+              telemetry: {
+                isEnabled: true,
+                functionId: "deepsearch-chat",
+              },
+              abortSignal: req.signal,
+              onError: ({ error }) => {
+                console.error("[AI stream error]", error);
+              },
+            });
 
-          //  将模型推理事件流转换为 UI 消息流并合并
-          writer.merge(
-            // toUIMessageStream 负责“把模型 stream 转成 UI Message Stream”
-            toUIMessageStream({
-              stream: result.stream,
-              sendStart: false, // false 避免重复发送 start 帧
-            }),
-          );
+            // 将模型推理事件流转换为 UI 消息流并合并
+            await writer.merge(
+              // toUIMessageStream 负责“把模型 stream 转成 UI Message Stream”
+              toUIMessageStream({
+                stream: result.stream,
+                sendStart: false, // false 避免重复发送 start 帧
+              }),
+            );
+          } catch (streamError) {
+            console.error("[DeepSearch Stream Error]:", streamError);
+            const errorMessage =
+              streamError instanceof Error
+                ? streamError.message
+                : String(streamError);
+            writer.write({
+              type: "text-delta",
+              id: crypto.randomUUID(),
+              delta: `\n\n> ⚠️ **检索推理过程发生异常**：${errorMessage}。请确认本地代理网络连接状态后重试。`,
+            });
+          }
         },
 
         onEnd: async ({

@@ -1,7 +1,7 @@
-import type { ScrapePagesOutput, SearchWebResultItem } from "./types";
-import { SearchWebView } from "./search-web/search-web-view";
 import { ScrapePagesView } from "./scrape-pages/scrape-pages-view";
+import { SearchWebView } from "./search-web/search-web-view";
 import { ToolFallbackView } from "./tool-fallback-view";
+import type { ScrapePagesOutput, SearchWebResultItem } from "./types";
 
 interface ToolOutputDisplayProps {
   toolName: string;

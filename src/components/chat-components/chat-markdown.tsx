@@ -1,10 +1,10 @@
 "use client";
 
+import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
-import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import { Check, Copy } from "lucide-react";
+import remarkGfm from "remark-gfm";
 
 /**
  * 代码块组件：

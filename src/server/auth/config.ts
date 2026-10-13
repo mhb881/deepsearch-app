@@ -15,10 +15,17 @@ export const auth = betterAuth({
       verification: schema.verificationTokens,
     },
   }),
+  emailAndPassword: {
+    enabled: true,
+  },
   socialProviders: {
     discord: {
       clientId: process.env.AUTH_DISCORD_ID!,
       clientSecret: process.env.AUTH_DISCORD_SECRET!,
+    },
+    github: {
+      clientId: process.env.AUTH_GITHUB_ID || "",
+      clientSecret: process.env.AUTH_GITHUB_SECRET || "",
     },
   },
   // 可选：将 session 数据与 NextAuth 保持兼容

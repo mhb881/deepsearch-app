@@ -22,6 +22,11 @@ import {
 interface ChatContextType {
   chats: SimpleChat[];
   handleCreatedChat: (chat: SimpleChat) => void;
+  isAuthModalOpen: boolean;
+  authModalMode: "signin" | "signup";
+  setAuthModalMode: (mode: "signin" | "signup") => void;
+  openAuthModal: (mode?: "signin" | "signup") => void;
+  closeAuthModal: () => void;
 }
 
 interface SimpleChat {
@@ -44,6 +49,9 @@ export const ChatContextProvider = ({
 }: ChatContextProviderProps) => {
   // 1.仅维护客户端“即时新建”的单条会话，避免在 state 中复制整份列表
   const [createdChat, setCreatedChat] = useState<SimpleChat | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<"signin" | "signup">("signin");
+
   // 2. 纯渲染期派生：检查服务端推来的列表是否已同步包含该会话
   const serverHasChat = initialChats.some(
     (chat) => chat.id === createdChat?.id,
@@ -60,13 +68,35 @@ export const ChatContextProvider = ({
     setCreatedChat(newChat);
   }, []);
 
+  const openAuthModal = useCallback((mode: "signin" | "signup" = "signin") => {
+    setAuthModalMode(mode);
+    setIsAuthModalOpen(true);
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    setIsAuthModalOpen(false);
+  }, []);
+
   // 5. 缓存 Context Value，避免 Provider 所在组件非相关更新引发下游消费者无谓重渲染
   const value = useMemo(
     () => ({
       chats,
       handleCreatedChat,
+      isAuthModalOpen,
+      authModalMode,
+      setAuthModalMode,
+      openAuthModal,
+      closeAuthModal,
     }),
-    [chats, handleCreatedChat],
+    [
+      chats,
+      handleCreatedChat,
+      isAuthModalOpen,
+      authModalMode,
+      setAuthModalMode,
+      openAuthModal,
+      closeAuthModal,
+    ],
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

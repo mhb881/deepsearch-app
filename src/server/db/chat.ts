@@ -5,10 +5,13 @@
 构建时会直接提示拦截，避免服务端代码/数据库凭据被打包到前端。
  */
 import "server-only";
+
 import { and, eq } from "drizzle-orm";
+
+import type { ChatUIMessage } from "~/lib/types/ai-types";
+
 import { db } from ".";
 import { chats, messages } from "./schema";
-import type { ChatUIMessage } from "~/lib/types/ai-types";
 
 /*
 1. 获取用户的所有会话列表（供侧边栏使用）

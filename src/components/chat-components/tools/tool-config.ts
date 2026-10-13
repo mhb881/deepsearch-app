@@ -1,4 +1,4 @@
-import { Search, Globe, Code2, type LucideIcon } from "lucide-react";
+import { Code2, Globe, type LucideIcon,Search } from "lucide-react";
 
 export interface ToolMeta {
   label: string;

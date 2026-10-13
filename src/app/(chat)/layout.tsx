@@ -1,6 +1,7 @@
 // src/app/(chat)/layout.tsx
 import type { ReactNode } from "react";
 
+import { GlobalAuthModal } from "~/components/auth/global-auth-modal";
 import Sidebar from "~/components/chat-components/chat-sidebar";
 import { ChatContextProvider } from "~/components/chat-components/context/chat-context";
 import { getSession } from "~/server/auth/session";
@@ -8,9 +9,9 @@ import { getChats } from "~/server/db/chat";
 
 async function ChatLayout({ children }: { children: ReactNode }) {
   const session = await getSession();
-  const isAuthenticated = !!session?.user; // 第一个取反是转换为 boolean 类型
+  const isAuthenticated = !!session?.user;
 
-  const userId = session?.user.id;
+  const userId = session?.user?.id;
 
   /**
    * 由于我们使用的是 Next.js 服务器端渲染，所以获取数据的操作都要在 server component 中进行
@@ -25,15 +26,15 @@ async function ChatLayout({ children }: { children: ReactNode }) {
     <ChatContextProvider initialChats={chats}>
       <div className="flex h-screen bg-white dark:bg-gray-950">
         {/* ⭐️ Sidebar 驻留在布局里：切换会话时不卸载、不重新挂载 */}
-        <Sidebar
-          isAuthenticated={isAuthenticated}
-          userImage={session?.user?.image}
-        />
+        <Sidebar isAuthenticated={isAuthenticated} user={session?.user} />
         {/* 右侧动态页面内容 */}
         <main className="flex h-full min-w-0 flex-1 flex-col overflow-hidden">
           {children}
         </main>
       </div>
+
+      {/* 全局登录/注册弹窗 */}
+      <GlobalAuthModal />
     </ChatContextProvider>
   );
 }

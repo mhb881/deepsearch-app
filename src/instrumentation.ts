@@ -22,14 +22,14 @@ import { env } from "./env";
 import { runProxy } from "./lib/proxy";
 import { langfuseSpanProcessor } from "./lib/telemetry";
 
+runProxy();
 export async function register() {
   // ⭐️ 核心守卫：仅在 Node.js 服务端运行时激活遥测与代理
   if (process.env.NEXT_RUNTIME === "nodejs") {
     // 1. 本地网络代理配置（用于外部大模型 API / OAuth 穿透）
-    runProxy();
 
     // 2. 动态导入 OpenTelemetry 与 Langfuse 遥测模块（避免污染客户端打包）
-    const { registerOTel } = await import("@vercel/otel");
+    // const { registerOTel } = await import("@vercel/otel");
     const { registerTelemetry } = await import("ai");
     const { LangfuseVercelAiSdkIntegration } =
       await import("@langfuse/vercel-ai-sdk");

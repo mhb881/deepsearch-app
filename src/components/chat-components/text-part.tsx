@@ -1,4 +1,5 @@
 import type { ChatUIPart } from "~/lib/types/ai-types";
+
 import { Markdown } from "./chat-markdown";
 
 interface TextPartProps {

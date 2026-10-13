@@ -1,6 +1,7 @@
+import { type InferUITools, type ToolSet } from "ai";
+
 import { scrapePages } from "./scrapePages";
 import { searchWeb } from "./searchWeb";
-import { type InferUITools, type ToolSet } from "ai";
 
 export const tools = {
   searchWeb,

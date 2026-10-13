@@ -1,10 +1,11 @@
-import {
-  startActiveObservation,
-  type LangfuseObservationType,
-  type LangfuseSpan,
-  type LangfuseRetriever,
-} from "@langfuse/tracing";
 import { LangfuseSpanProcessor } from "@langfuse/otel";
+import {
+  type LangfuseObservationType,
+  type LangfuseRetriever,
+  type LangfuseSpan,
+  startActiveObservation,
+} from "@langfuse/tracing";
+
 import { env } from "~/env";
 
 /**

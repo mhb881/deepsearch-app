@@ -1,10 +1,11 @@
 "use client";
 
-import { authClient } from "~/lib/auth-client";
-import { siDiscord } from "simple-icons/icons";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { LogOut } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { siDiscord } from "simple-icons/icons";
+
+import { authClient } from "~/lib/auth-client";
 
 interface AuthButtonProps {
   isAuthenticated: boolean;

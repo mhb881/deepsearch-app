@@ -10,10 +10,12 @@ export const env = createEnv({
   server: {
     REDIS_URL: z.url(), // Redis 连接地址（必须是有效 URL）
     // 认证密钥
-    AUTH_SECRET:
+    BETTER_AUTH_SECRET:
       process.env.NODE_ENV === "production"
         ? z.string() // 生产环境：必填字符串
         : z.string().optional(), // 开发/测试环境：可选
+    BETTER_AUTH_URL: z.string(), // Base URL of your app
+
     DATABASE_URL: z.url(), // 数据库连接地址（必须是有效 URL）
     NODE_ENV: z // Node.js 运行环境
       .enum(["development", "test", "production"])
@@ -68,8 +70,10 @@ export const env = createEnv({
    * 将 process.env.XXX 手动映射进去（因为 Next.js edge runtime 不能直接解构 process.env）
    */
   runtimeEnv: {
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+
     REDIS_URL: process.env.REDIS_URL,
-    AUTH_SECRET: process.env.AUTH_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
 

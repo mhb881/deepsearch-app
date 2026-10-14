@@ -249,7 +249,7 @@ export const ChatPage = ({
       </StickToBottom>
 
       {/* 底部输入框区域：对齐 Vercel Chatbot 悬浮卡片式 */}
-      <div className="from-background via-background/90 shrink-0 bg-gradient-to-t to-transparent pt-3 pb-4 sm:pb-6">
+      <div className="from-background via-background/90 shrink-0 bg-linear-to-t to-transparent pt-3 pb-4 sm:pb-6">
         <form
           onSubmit={handleFormSubmit}
           className="mx-auto w-full max-w-3xl px-4"

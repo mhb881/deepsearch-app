@@ -25,7 +25,7 @@ import { chats } from "~/server/db/schema";
 import { checkRateLimit, logRequest } from "~/server/rate-limit";
 import { checkGlobalRateLimit } from "~/server/redis/global-rate-limit";
 
-export const maxDuration = 80;
+export const maxDuration = 60;
 const MAX_REQUESTS_PER_DAY = 10;
 
 // 全局模型调用限流参数：例如设置 20 秒内最多允许 1 次请求（便于测试验证）

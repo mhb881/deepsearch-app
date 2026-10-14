@@ -4,7 +4,7 @@
 import { Loader2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { siDiscord, siGithub, siGoogle } from "simple-icons";
+import { siDiscord, siGithub } from "simple-icons";
 
 import { authClient } from "~/lib/auth-client";
 

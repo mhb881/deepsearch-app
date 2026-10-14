@@ -27,5 +27,5 @@ const siliconflowModel = siliconflow.chatModel("deepseek-ai/DeepSeek-V4-Flash");
  */
 export const groqModel_Qwen3_8_27b = groq("qwen/qwen3.8-27b");
 
-export const model = google_gemini_3_1_flash;
+export const model = google_gemini_3_5_flash;
 export const factualityModel = google_gemini_3_1_flash;

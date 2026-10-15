@@ -1,4 +1,4 @@
-import { setTimeout } from "node:timers/promises";
+import { setTimeout as sleep } from "node:timers/promises";
 
 import * as cheerio from "cheerio";
 import robotsParser from "robots-parser";
@@ -163,73 +163,57 @@ export const crawlWebsite = cacheWithRedis(
       };
     }
 
-    // 指数退避重试
-    let attempts = 0;
-    while (attempts < maxRetries) {
-      // 10秒超时熔断
+    // maxRetries 表示额外重试次数
+    const maxAttempts = maxRetries + 1;
+    let lastError = "Unknown error";
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const controller = new AbortController();
-      // 这里是 Node.js 的 setTimeout，返回 Promise Promise<unknown>
-      const promise = setTimeout(10000, controller.abort());
+
+      // 使用全局 setTimeout，在 10 秒后取消请求
+      const timeoutId = globalThis.setTimeout(() => {
+        controller.abort();
+      }, 10_000);
 
       try {
         const response = await fetch(url, {
           signal: controller.signal,
           headers: {
-            "User-agent":
+            "User-Agent":
               "Mozilla/5.0 (compatible; DeepSearchBot/1.0; +https://example.com/bot)",
           },
         });
 
         // 如果响应状态码为 200，说明成功获取到 HTML
         if (response.ok) {
+          // 定时器会一直有效，直到响应正文读取完成
           const html = await response.text();
           const articleText = extractArticleText(html);
+
           return {
             success: true,
             data: articleText,
           };
         }
 
-        // 否则，启动指数退避重试
-        attempts++;
-        if (attempts === maxRetries) {
-          return {
-            success: false,
-            error: `Failed to fetch website after ${maxRetries} attempts: ${response.status} ${response.statusText}`,
-          };
-        }
-
-        // ⭐️ 指数退避计算延迟时间：0.5s, 1s, 2s, 4s, 最大 8s
-        const delay = Math.min(
-          MIN_DELAY_MS * Math.pow(2, attempts),
-          MAX_DELAY_MS,
-        );
-        await setTimeout(delay);
+        lastError = `${response.status} ${response.statusText}`;
       } catch (error) {
-        attempts++;
-        if (attempts === maxRetries) {
-          return {
-            success: false,
-            error: `Network error after ${maxRetries} attempts: ${
-              error instanceof Error ? error.message : "Unknown error"
-            }`,
-          };
-        }
-
-        const delay = Math.min(
-          MIN_DELAY_MS * Math.pow(2, attempts),
-          MAX_DELAY_MS,
-        );
-        await setTimeout(delay);
+        lastError = error instanceof Error ? error.message : "Unknown error";
       } finally {
-        // 清理定时器
-        controller.abort(); // Promise 直接 reject，抛出 AbortError
+        // 请求完成后清除定时器，不要在这里无条件 abort()
+        globalThis.clearTimeout(timeoutId);
+      }
+
+      // 将退避等待放到 finally 之后，避免定时器在等待期间继续生效
+      if (attempt + 1 < maxAttempts) {
+        const delay = Math.min(MIN_DELAY_MS * 2 ** attempt, MAX_DELAY_MS);
+
+        await sleep(delay);
       }
     }
 
     return {
       success: false,
-      error: "Maximum retry attempts reached",
+      error: `Failed to fetch website after ${maxAttempts} attempts: ${lastError}`,
     };
   },
 );

@@ -191,10 +191,10 @@ async function handler(req: Request) {
       // 7. 构建 UI 消息流
       const stream = createUIMessageStream<ChatUIMessage>({
         originalMessages: messages,
-
+        // 8. 执行模型推理
         execute: async ({ writer }) => {
           writer.write({
-            type: "start",
+            type: "start", // 发送 start 帧，通知客户端开始处理
           });
 
           // 若为新建会话，下发瞬态自定义数据事件（仅通知客户端 onData，不存入消息 parts 历史）

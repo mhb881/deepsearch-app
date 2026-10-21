@@ -14,7 +14,7 @@ export function ScrapePagesView({ output }: ScrapePagesViewProps) {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
+      <div className="text-muted-foreground flex items-center justify-between text-xs">
         <div className="flex items-center gap-1.5 font-medium">
           <span>
             已解析 {results.length} 个页面 ({successCount}/{results.length}{" "}

@@ -2,7 +2,7 @@ import { generateText, Output } from "ai";
 import { createScorer } from "evalite";
 import { z } from "zod";
 
-import { groqModel_Qwen3_8_27b } from "~/lib/ai/model";
+import { getLanguageModel } from "~/lib/ai/model";
 
 // 阶段一提示词：将长文本拆解为原子命题
 export function generateEvaluationStatementsPrompt({
@@ -148,7 +148,7 @@ export async function checkAnswerRelevancy({
 }) {
   // 第一阶段调用：将回答拆解为原子命题数组
   const { output: statementsOut } = await generateText({
-    model: groqModel_Qwen3_8_27b,
+    model: getLanguageModel("zai-org/GLM-5.3-Flash"),
     prompt: generateEvaluationStatementsPrompt({ output: submission }),
     // 它期望通过 z.array(z.string()) 拿到一堆 statements 回来
     output: Output.object({
@@ -176,7 +176,7 @@ export async function checkAnswerRelevancy({
 
   // 第二阶段调用，批量审查每个命题的相关度裁决 (AI SDK v7 规范)
   const { output: verdictsOut } = await generateText({
-    model: groqModel_Qwen3_8_27b,
+    model: getLanguageModel("zai-org/GLM-5.3-Flash"),
     instructions: ANSWER_RELEVANCY_AGENT_INSTRUCTIONS,
     prompt: generateEvaluatePrompt({ input: question, statements }),
     output: Output.object({

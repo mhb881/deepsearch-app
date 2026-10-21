@@ -50,7 +50,9 @@ export const ChatContextProvider = ({
   // 1.仅维护客户端“即时新建”的单条会话，避免在 state 中复制整份列表
   const [createdChat, setCreatedChat] = useState<SimpleChat | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState<"signin" | "signup">("signin");
+  const [authModalMode, setAuthModalMode] = useState<"signin" | "signup">(
+    "signin",
+  );
 
   // 2. 纯渲染期派生：检查服务端推来的列表是否已同步包含该会话
   const serverHasChat = initialChats.some(

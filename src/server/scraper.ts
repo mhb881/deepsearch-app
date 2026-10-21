@@ -163,13 +163,19 @@ export const crawlWebsite = cacheWithRedis(
       };
     }
 
-    // maxRetries 表示额外重试次数
+    /*
+    约定：maxRetries 表示首次请求之外的重试次数。
+    通常，maxRetries 表示首次请求失败后还允许重试多少次。
+    在这种语义下，三次重试应该允许总共四次请求。
+    用 maxAttempts 控制总请求次数。
+     */
     const maxAttempts = maxRetries + 1;
     let lastError = "Unknown error";
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const controller = new AbortController();
 
       // 使用全局 setTimeout，在 10 秒后取消请求
+      // globalThis.setTimeout(callback, delay) 用于到期时触发取消请求
       const timeoutId = globalThis.setTimeout(() => {
         controller.abort();
       }, 10_000);
@@ -207,6 +213,7 @@ export const crawlWebsite = cacheWithRedis(
       if (attempt + 1 < maxAttempts) {
         const delay = Math.min(MIN_DELAY_MS * 2 ** attempt, MAX_DELAY_MS);
 
+        // sleep(delay) 用于等待一段时间后再进行下一次重试，这里是 node 版的 setTimeout
         await sleep(delay);
       }
     }

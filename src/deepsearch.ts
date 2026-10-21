@@ -130,7 +130,6 @@ export async function askDeepSearch(messages: UIMessage[]) {
 
   // ⭐️ 核心物理动作：强制排空流数据块，释放背压信号
   await result.consumeStream();
-
   // 顺利返回结算后的完整 Markdown 纯文本
   return await result.text;
 }

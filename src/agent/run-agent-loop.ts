@@ -2,6 +2,8 @@
  * src/run-agent-loop.ts
  * 智能体自主调度主循环
  */
+import type { StreamTextResult } from "ai";
+
 import { env } from "~/env";
 import { bulkCrawlWebsites } from "~/server/scraper";
 import { searchSerper } from "~/server/serper";
@@ -47,7 +49,7 @@ async function executeScrape(urls: string[], ctx: SystemContext) {
 /**
  * 主循环函数
  */
-export async function runAgentLoop(initialQuestion: string): Promise<string> {
+export async function runAgentLoop(initialQuestion: string) {
   const ctx = new SystemContext({ initialQuestion });
 
   // 用 while 循环控制流程，上限 10 步

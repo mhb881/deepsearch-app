@@ -2,7 +2,7 @@
  * src/answer-question.ts
  * 独立的回答生成函数：根据搜索和抓取历史生成最终答复
  */
-import { generateText } from "ai";
+import { generateText, streamText, type StreamTextResult } from "ai";
 
 import { getLanguageModel } from "~/lib/ai/model";
 
@@ -16,13 +16,13 @@ interface AnswerQuestionOptions {
 export async function answerQuestion(
   ctx: SystemContext,
   options: AnswerQuestionOptions = {},
-): Promise<string> {
+) {
   const { isFinal = false } = options;
 
   // 使用生成能力较强的大模型
   const model = getLanguageModel("zai-org/GLM-5.3-Flash");
 
-  const result = await generateText({
+  return await streamText({
     model,
     instructions: `You are a helpful AI assistant that answers questions based on the information gathered from web searches and scraped content.
 When answering:
@@ -36,14 +36,14 @@ ${
     ? "Note: We may not have all the information needed to answer the question completely. Please provide your best attempt at an answer based on the available information."
     : ""
 }`,
-    prompt: `Question: ${ctx.getInitialQuestion()}
+    prompt: `##Question:
+     ${ctx.getInitialQuestion()}
+    Based on the following context, please answer the question:
 
-Based on the following context, please answer the question:
+    ## Search results
+    ${ctx.getQueryHistory()}
 
-${ctx.getQueryHistory()}
-
-${ctx.getScrapeHistory()}`,
+    ## Scraped pages
+    ${ctx.getScrapeHistory()}`,
   });
-
-  return result.text;
 }

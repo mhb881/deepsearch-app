@@ -1,3 +1,8 @@
+/**
+ * src/agent/system-context.ts
+ * Agent 一次循环的上下文
+ */
+
 // 1. 搜索结果数据结构定义
 type QueryResultSearchResult = {
   date: string;
